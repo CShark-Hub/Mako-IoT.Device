@@ -1,6 +1,6 @@
 ﻿using System;
-using MakoIoT.Device.Services.DependencyInjection;
 using MakoIoT.Device.Services.Interface;
+using nanoFramework.DependencyInjection;
 
 namespace MakoIoT.Device
 {
@@ -9,12 +9,18 @@ namespace MakoIoT.Device
         protected Action ConfigureDiAction;
         public ConfigureDefaultsDelegate ConfigureDefaultsAction { get; set; }
 
+        public IServiceCollection Services { get; }
+
         public event EventHandler DeviceStarting;
         public event EventHandler DeviceStopped;
 
+        internal DeviceBuilder()
+        {
+            Services = new ServiceCollection();
+        }
+
         public static IDeviceBuilder Create()
         {
-            DI.Clear();
             return new DeviceBuilder();
         }
 
@@ -27,9 +33,16 @@ namespace MakoIoT.Device
         public virtual IDevice Build()
         {
             ConfigureDiAction?.Invoke();
-            ConfigureDefaultsAction?.Invoke((IConfigurationService)DI.Resolve(typeof(IConfigurationService)));
 
-            var device = (IoTDevice)DI.BuildUp(typeof(IoTDevice));
+            var serviceProvider = (IServiceProvider)Services.BuildServiceProvider();
+
+            if (ConfigureDefaultsAction != null)
+            {
+                var configurationService = (IConfigurationService)serviceProvider.GetService(typeof(IConfigurationService));
+                ConfigureDefaultsAction.Invoke(configurationService);
+            }
+
+            var device = (IDevice)ActivatorUtilities.CreateInstance(serviceProvider, typeof(IoTDevice));
 
             if (DeviceStarting != null)
             {
@@ -50,7 +63,6 @@ namespace MakoIoT.Device
             }
 
             return device;
-
         }
     }
 }
