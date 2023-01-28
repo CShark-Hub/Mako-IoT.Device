@@ -28,7 +28,6 @@ namespace MakoIoT.Device
             Starting?.Invoke(this, EventArgs.Empty);
         }
 
-        // TODO: Tests
         public static bool IsRegistered(IServiceProvider serviceProvider, Type serviceType)
         {
             var service = serviceProvider.GetService(serviceType);
