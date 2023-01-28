@@ -23,8 +23,8 @@ namespace MakoIoT.Device.Test
 
             var builder = DeviceBuilder.Create();
 
-            builder.DeviceStarting += (sender, args) => { startingCalled = true; };
-            builder.DeviceStopped += (sender, args) => { stoppedCalled = true; };
+            builder.DeviceStarting += (sender) => { startingCalled = true; };
+            builder.DeviceStopped += (sender) => { stoppedCalled = true; };
 
             var device = builder.Build();
 
@@ -42,8 +42,8 @@ namespace MakoIoT.Device.Test
 
             var builder = DeviceBuilder.Create();
 
-            builder.DeviceStarting += (sender, args) => { startingCalled = true; };
-            builder.DeviceStopped += (sender, args) => { stoppedCalled = true; };
+            builder.DeviceStarting += (sender) => { startingCalled = true; };
+            builder.DeviceStopped += (sender) => { stoppedCalled = true; };
 
             var device = builder.Build();
 
