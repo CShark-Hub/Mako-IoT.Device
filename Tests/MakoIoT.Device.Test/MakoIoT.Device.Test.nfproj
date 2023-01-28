@@ -28,6 +28,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="DeviceBuilderTest.cs" />
+    <Compile Include="IoTDeviceTests.cs" />
+    <Compile Include="Mocks\DeviceStartBehaviorMock.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MakoIoT.Device.Services.Interface">

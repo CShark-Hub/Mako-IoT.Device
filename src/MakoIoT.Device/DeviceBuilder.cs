@@ -34,7 +34,7 @@ namespace MakoIoT.Device
         {
             ConfigureDiAction?.Invoke();
 
-            var serviceProvider = Services.BuildServiceProvider();
+            var serviceProvider = (IServiceProvider)Services.BuildServiceProvider();
 
             if (ConfigureDefaultsAction != null)
             {
