@@ -11,8 +11,8 @@ namespace MakoIoT.Device
 
         public IServiceCollection Services { get; }
 
-        public event EventHandler DeviceStarting;
-        public event EventHandler DeviceStopped;
+        public event DeviceStartingDelegate DeviceStarting;
+        public event DeviceStoppedDelegate DeviceStopped;
 
         internal DeviceBuilder()
         {
@@ -46,7 +46,7 @@ namespace MakoIoT.Device
 
             if (DeviceStarting != null)
             {
-                foreach (EventHandler handler in DeviceStarting.GetInvocationList())
+                foreach (DeviceStartingDelegate handler in DeviceStarting.GetInvocationList())
                 {
                     DeviceStarting -= handler;
                     device.Starting += handler;
@@ -55,7 +55,7 @@ namespace MakoIoT.Device
 
             if (DeviceStopped != null)
             {
-                foreach (EventHandler handler in DeviceStopped.GetInvocationList())
+                foreach (DeviceStoppedDelegate handler in DeviceStopped.GetInvocationList())
                 {
                     DeviceStopped -= handler;
                     device.Stopped += handler;

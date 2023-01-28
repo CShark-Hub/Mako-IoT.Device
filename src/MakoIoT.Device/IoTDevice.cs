@@ -7,8 +7,8 @@ namespace MakoIoT.Device
     {
         public IServiceProvider ServiceProvider { get; }
 
-        public event EventHandler Starting;
-        public event EventHandler Stopped;
+        public event DeviceStartingDelegate Starting;
+        public event DeviceStoppedDelegate Stopped;
 
         public IoTDevice(IServiceProvider serviceProvider)
         {
@@ -25,7 +25,8 @@ namespace MakoIoT.Device
                     return;
                 }
             }
-            Starting?.Invoke(this, EventArgs.Empty);
+
+            Starting?.Invoke(this);
         }
 
         public static bool IsRegistered(IServiceProvider serviceProvider, Type serviceType)
@@ -41,7 +42,7 @@ namespace MakoIoT.Device
 
         public void Stop()
         {
-            Stopped?.Invoke(this, EventArgs.Empty);
+            Stopped?.Invoke(this);
         }
     }
 }
