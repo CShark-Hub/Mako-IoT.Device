@@ -42,7 +42,7 @@ namespace MakoIoT.Device
                 ConfigureDefaultsAction.Invoke(configurationService);
             }
 
-            var device = (IDevice)ActivatorUtilities.CreateInstance(serviceProvider, typeof(IoTDevice), serviceProvider);
+            var device = (IDevice)ActivatorUtilities.CreateInstance(serviceProvider, typeof(IoTDevice));
 
             if (DeviceStarting != null)
             {
