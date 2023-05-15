@@ -6,7 +6,7 @@ namespace MakoIoT.Device
 {
     public class DeviceBuilder : IDeviceBuilder
     {
-        protected Action ConfigureDiAction;
+        protected ConfigureDIDelegate ConfigureDiAction;
         public ConfigureDefaultsDelegate ConfigureDefaultsAction { get; set; }
 
         public IServiceCollection Services { get; }
@@ -24,7 +24,7 @@ namespace MakoIoT.Device
             return new DeviceBuilder();
         }
 
-        public virtual IDeviceBuilder ConfigureDI(Action configureDiAction)
+        public IDeviceBuilder ConfigureDI(ConfigureDIDelegate configureDiAction)
         {
             ConfigureDiAction = configureDiAction;
             return this;
@@ -32,7 +32,7 @@ namespace MakoIoT.Device
 
         public virtual IDevice Build()
         {
-            ConfigureDiAction?.Invoke();
+            ConfigureDiAction?.Invoke(Services);
 
             var serviceProvider = (IServiceProvider)Services.BuildServiceProvider();
 
