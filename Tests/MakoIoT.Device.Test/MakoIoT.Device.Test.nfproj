@@ -33,7 +33,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MakoIoT.Device.Services.Interface">
-      <HintPath>..\..\packages\MakoIoT.Device.Services.Interface.1.0.23.51280\lib\MakoIoT.Device.Services.Interface.dll</HintPath>
+      <HintPath>..\..\packages\MakoIoT.Device.Services.Interface.1.0.30.59281\lib\MakoIoT.Device.Services.Interface.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib, Version=1.14.3.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
       <HintPath>..\..\packages\nanoFramework.CoreLibrary.1.14.2\lib\mscorlib.dll</HintPath>
@@ -42,13 +42,11 @@
     <Reference Include="nanoFramework.DependencyInjection">
       <HintPath>..\..\packages\nanoFramework.DependencyInjection.1.0.22\lib\nanoFramework.DependencyInjection.dll</HintPath>
     </Reference>
-    <Reference Include="nanoFramework.TestFramework, Version=2.1.59.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
-      <HintPath>..\..\packages\nanoFramework.TestFramework.2.1.59\lib\nanoFramework.TestFramework.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="nanoFramework.TestFramework">
+      <HintPath>..\..\packages\nanoFramework.TestFramework.2.1.81\lib\nanoFramework.TestFramework.dll</HintPath>
     </Reference>
-    <Reference Include="nanoFramework.UnitTestLauncher, Version=0.0.0.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
-      <HintPath>..\..\packages\nanoFramework.TestFramework.2.1.59\lib\nanoFramework.UnitTestLauncher.exe</HintPath>
-      <Private>True</Private>
+    <Reference Include="nanoFramework.UnitTestLauncher">
+      <HintPath>..\..\packages\nanoFramework.TestFramework.2.1.81\lib\nanoFramework.UnitTestLauncher.exe</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -65,12 +63,5 @@
       <ProjectConfigurationsDeclaredAsItems />
     </ProjectCapabilities>
   </ProjectExtensions>
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <WarningText>Update the Import path in nfproj to the correct nanoFramework.TestFramework NuGet package folder.</WarningText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\..\packages\nanoFramework.TestFramework.2.1.59\build\nanoFramework.TestFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\nanoFramework.TestFramework.2.1.59\build\nanoFramework.TestFramework.targets'))" />
-    <Error Condition="!Exists('..\..\packages\nanoFramework.TestFramework.2.1.59\build\nanoFramework.TestFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\nanoFramework.TestFramework.2.1.59\build\nanoFramework.TestFramework.targets'))" />
-  </Target>
-  <Import Project="..\..\packages\nanoFramework.TestFramework.2.1.59\build\nanoFramework.TestFramework.targets" Condition="Exists('..\..\packages\nanoFramework.TestFramework.2.1.59\build\nanoFramework.TestFramework.targets')" />
+  <Import Project="..\..\packages\nanoFramework.TestFramework.2.1.81\build\nanoFramework.TestFramework.targets" Condition="Exists('..\..\packages\nanoFramework.TestFramework.2.1.81\build\nanoFramework.TestFramework.targets')" />
 </Project>
