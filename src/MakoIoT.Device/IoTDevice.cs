@@ -1,5 +1,6 @@
 ﻿using System;
 using MakoIoT.Device.Services.Interface;
+using nanoFramework.DependencyInjection;
 
 namespace MakoIoT.Device
 {
@@ -19,7 +20,13 @@ namespace MakoIoT.Device
         {
             if (IsRegistered(ServiceProvider, typeof(IDeviceStartBehavior)))
             {
-                var behavior = (IDeviceStartBehavior)ServiceProvider.GetService(typeof(IDeviceStartBehavior));
+                var behaviors = ServiceProvider.GetServices(typeof(IDeviceStartBehavior));
+                if (behaviors.Length > 1)
+                {
+                    throw new InvalidOperationException($"More than one {nameof(IDeviceStartBehavior)} is registered");
+                }
+
+                var behavior = (IDeviceStartBehavior) behaviors[0];
                 if (!behavior.DeviceStarting())
                 {
                     return;
