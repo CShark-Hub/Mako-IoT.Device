@@ -21,15 +21,12 @@ namespace MakoIoT.Device
             if (IsRegistered(ServiceProvider, typeof(IDeviceStartBehavior)))
             {
                 var behaviors = ServiceProvider.GetServices(typeof(IDeviceStartBehavior));
-                if (behaviors.Length > 1)
+                foreach (IDeviceStartBehavior behavior in behaviors)
                 {
-                    throw new InvalidOperationException($"More than one {nameof(IDeviceStartBehavior)} is registered");
-                }
-
-                var behavior = (IDeviceStartBehavior) behaviors[0];
-                if (!behavior.DeviceStarting())
-                {
-                    return;
+                    if (!behavior.DeviceStarting())
+                    {
+                        throw new InvalidOperationException($"{behavior.GetType()} failed to execute");
+                    }
                 }
             }
 
