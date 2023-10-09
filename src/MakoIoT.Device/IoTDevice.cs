@@ -25,7 +25,7 @@ namespace MakoIoT.Device
                 {
                     if (!behavior.DeviceStarting())
                     {
-                        throw new InvalidOperationException($"{behavior.GetType()} failed to execute");
+                        return;
                     }
                 }
             }

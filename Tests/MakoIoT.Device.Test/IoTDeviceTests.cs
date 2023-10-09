@@ -89,7 +89,7 @@ namespace MakoIoT.Device.Test
         }
 
         [TestMethod]
-        public void Start_should_throw_if_IDeviceStartBehavior_DeviceStarting_returns_false()
+        public void Start_should_exit_early_if_IDeviceStartBehavior_DeviceStarting_returns_false()
         {
             // Arrange
             var executions = new ArrayList();
@@ -105,7 +105,7 @@ namespace MakoIoT.Device.Test
             var sut = new IoTDevice(serviceCollection.BuildServiceProvider());
 
             // Act
-            Assert.ThrowsException(typeof(InvalidOperationException), (() => sut.Start()));
+            sut.Start();
 
             // Assert
             Assert.IsTrue(deviceStartBehavior1.Executed);
