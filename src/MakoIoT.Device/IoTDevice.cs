@@ -14,18 +14,11 @@ namespace MakoIoT.Device
         public event DeviceStartingDelegate Starting;
         public event DeviceStoppedDelegate Stopped;
 
-        public IoTDevice(IServiceProvider serviceProvider)
+        public IoTDevice(IServiceProvider serviceProvider, ILogger logger)
         {
             ServiceProvider = serviceProvider;
 
-            if (IsRegistered(ServiceProvider, typeof(ILoggerFactory)))
-            {
-                _logger = ((ILoggerFactory)ServiceProvider.GetService(typeof(ILoggerFactory))).CreateLogger(nameof(IoTDevice));
-            }
-            else if (IsRegistered(ServiceProvider, typeof(ILogger)))
-            {
-                _logger = (ILogger)ServiceProvider.GetService(typeof(ILogger));
-            }
+            _logger = logger;
         }
 
         public void Start()
@@ -37,7 +30,7 @@ namespace MakoIoT.Device
                 {
                     if (!behavior.DeviceStarting())
                     {
-                        _logger?.LogError($"{behavior.GetType().Name} returned false. Bailing!");
+                        _logger.LogError($"{behavior.GetType().Name} returned false. Bailing!");
 
                         return;
                     }

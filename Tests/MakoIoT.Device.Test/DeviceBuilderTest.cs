@@ -1,4 +1,7 @@
-﻿using nanoFramework.TestFramework;
+﻿using MakoIoT.Device.Test.Mocks;
+using Microsoft.Extensions.Logging;
+using nanoFramework.DependencyInjection;
+using nanoFramework.TestFramework;
 
 namespace MakoIoT.Device.Test
 {
@@ -9,6 +12,7 @@ namespace MakoIoT.Device.Test
         public void Build_Should_ReturnValidObject()
         {
             var builder = DeviceBuilder.Create();
+            builder.Services.AddSingleton(typeof(ILogger), new MockLogger());
 
             var device = builder.Build();
 
@@ -25,6 +29,7 @@ namespace MakoIoT.Device.Test
 
             builder.DeviceStarting += (sender) => { startingCalled = true; };
             builder.DeviceStopped += (sender) => { stoppedCalled = true; };
+            builder.Services.AddSingleton(typeof(ILogger), new MockLogger());
 
             var device = builder.Build();
 
@@ -44,6 +49,7 @@ namespace MakoIoT.Device.Test
 
             builder.DeviceStarting += (sender) => { startingCalled = true; };
             builder.DeviceStopped += (sender) => { stoppedCalled = true; };
+            builder.Services.AddSingleton(typeof(ILogger), new MockLogger());
 
             var device = builder.Build();
 

@@ -53,7 +53,7 @@ namespace MakoIoT.Device.Test
                 serviceCollection.AddSingleton(typeof(IDeviceStartBehavior), deviceStartBehavior);
             }
 
-            var sut = new IoTDevice(serviceCollection.BuildServiceProvider());
+            var sut = new IoTDevice(serviceCollection.BuildServiceProvider(), new MockLogger());
 
             // Act
             sut.Start();
@@ -80,7 +80,7 @@ namespace MakoIoT.Device.Test
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddSingleton(typeof(IDeviceStartBehavior), deviceStartBehavior);
 
-            var sut = new IoTDevice(serviceCollection.BuildServiceProvider());
+            var sut = new IoTDevice(serviceCollection.BuildServiceProvider(), new MockLogger());
 
             // Act
             sut.Start();
@@ -103,7 +103,7 @@ namespace MakoIoT.Device.Test
             serviceCollection.AddSingleton(typeof(IDeviceStartBehavior), deviceStartBehavior2);
             serviceCollection.AddSingleton(typeof(IDeviceStartBehavior), deviceStartBehavior3);
 
-            var sut = new IoTDevice(serviceCollection.BuildServiceProvider());
+            var sut = new IoTDevice(serviceCollection.BuildServiceProvider(), new MockLogger());
 
             // Act
             sut.Start();
@@ -128,7 +128,7 @@ namespace MakoIoT.Device.Test
             serviceCollection.AddSingleton(typeof(IDeviceStartBehavior), deviceStartBehavior);
             serviceCollection.AddSingleton(typeof(ILogger), logger);
 
-            var sut = new IoTDevice(serviceCollection.BuildServiceProvider());
+            var sut = new IoTDevice(serviceCollection.BuildServiceProvider(), logger);
 
             // Act
             sut.Start();
