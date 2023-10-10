@@ -1,11 +1,14 @@
 ﻿using System;
 using MakoIoT.Device.Services.Interface;
+using Microsoft.Extensions.Logging;
 using nanoFramework.DependencyInjection;
 
 namespace MakoIoT.Device
 {
     public class IoTDevice : IDevice
     {
+        private readonly ILogger _logger;
+
         public IServiceProvider ServiceProvider { get; }
 
         public event DeviceStartingDelegate Starting;
@@ -14,6 +17,15 @@ namespace MakoIoT.Device
         public IoTDevice(IServiceProvider serviceProvider)
         {
             ServiceProvider = serviceProvider;
+
+            if (IsRegistered(ServiceProvider, typeof(ILoggerFactory)))
+            {
+                _logger = ((ILoggerFactory)ServiceProvider.GetService(typeof(ILoggerFactory))).CreateLogger(nameof(IoTDevice));
+            }
+            else if (IsRegistered(ServiceProvider, typeof(ILogger)))
+            {
+                _logger = (ILogger)ServiceProvider.GetService(typeof(ILogger));
+            }
         }
 
         public void Start()
@@ -25,6 +37,8 @@ namespace MakoIoT.Device
                 {
                     if (!behavior.DeviceStarting())
                     {
+                        _logger?.LogError($"{behavior.GetType().Name} returned false. Bailing!");
+
                         return;
                     }
                 }

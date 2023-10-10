@@ -4,6 +4,7 @@ using nanoFramework.DependencyInjection;
 using nanoFramework.TestFramework;
 using System;
 using System.Collections;
+using Microsoft.Extensions.Logging;
 
 namespace MakoIoT.Device.Test
 {
@@ -114,6 +115,27 @@ namespace MakoIoT.Device.Test
             Assert.IsTrue(executions.Count == 2);
             Assert.AreEqual(deviceStartBehavior1, executions[0]);
             Assert.AreEqual(deviceStartBehavior2, executions[1]);
+        }
+
+        [TestMethod]
+        public void Start_should_log_if_IDeviceStartBehavior_DeviceStarting_returns_false()
+        {
+            // Arrange
+            var deviceStartBehavior = new DeviceStartBehaviorMock(1, false);
+            var logger = new MockLogger();
+
+            var serviceCollection = new ServiceCollection();
+            serviceCollection.AddSingleton(typeof(IDeviceStartBehavior), deviceStartBehavior);
+            serviceCollection.AddSingleton(typeof(ILogger), logger);
+
+            var sut = new IoTDevice(serviceCollection.BuildServiceProvider());
+
+            // Act
+            sut.Start();
+
+            // Assert
+            Assert.IsTrue(deviceStartBehavior.Executed);
+            Assert.IsTrue(logger.Logged);
         }
 
         /// <summary>
