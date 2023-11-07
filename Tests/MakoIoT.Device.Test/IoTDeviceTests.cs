@@ -1,6 +1,5 @@
 ﻿using MakoIoT.Device.Services.Interface;
 using MakoIoT.Device.Test.Mocks;
-using nanoFramework.DependencyInjection;
 using nanoFramework.TestFramework;
 using System;
 using System.Collections;
