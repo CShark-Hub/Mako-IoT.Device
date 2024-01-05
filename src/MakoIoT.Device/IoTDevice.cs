@@ -22,6 +22,19 @@ namespace MakoIoT.Device
 
         public void Start()
         {
+            if (IsRegistered(ServiceProvider, typeof(IDeviceInitializationBehavior)))
+            {
+                var behaviors = ServiceProvider.GetServices(typeof(IDeviceInitializationBehavior));
+                foreach (IDeviceInitializationBehavior behavior in behaviors)
+                {
+                    if (!behavior.DeviceInitialization())
+                    {
+                        _logger.Information($"{behavior.GetType().Name} returned false. Bailing!");
+                        return;
+                    }
+                }
+            }
+            
             if (IsRegistered(ServiceProvider, typeof(IDeviceStartBehavior)))
             {
                 var behaviors = ServiceProvider.GetServices(typeof(IDeviceStartBehavior));
@@ -30,7 +43,6 @@ namespace MakoIoT.Device
                     if (!behavior.DeviceStarting())
                     {
                         _logger.Information($"{behavior.GetType().Name} returned false. Bailing!");
-
                         return;
                     }
                 }

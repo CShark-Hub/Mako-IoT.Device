@@ -134,7 +134,6 @@ namespace MakoIoT.Device.Test
 
             // Assert
             Assert.IsTrue(deviceStartBehavior.Executed);
-            // Assert.IsTrue(logger.Logged);
         }
 
         /// <summary>
@@ -171,6 +170,43 @@ namespace MakoIoT.Device.Test
                 var expect = expected[i];
                 var actual = results[i];
 
+                Assert.AreEqual(expect, actual);
+            }
+        }
+        
+        [TestMethod]
+        public void Start_should_execute_multiple_IDeviceInitializationBehavior_in_the_order_they_were_registered()
+        {
+            // Arrange
+            var executions = new ArrayList();
+            var expected = new ArrayList();
+            var random = new Random();
+
+            for (var i = 0; i < 10; i++)
+            {
+                expected.Add(new DeviceInitializationBehaviorMock(random.Next(), true, executions));
+            }
+
+            var serviceCollection = new ServiceCollection();
+            foreach (var deviceStartBehavior in expected)
+            {
+                serviceCollection.AddSingleton(typeof(IDeviceInitializationBehavior), deviceStartBehavior);
+            }
+
+            var sut = new IoTDevice(serviceCollection.BuildServiceProvider(), new MockLogger());
+
+            // Act
+            sut.Start();
+
+            // Assert
+            Assert.AreEqual(expected.Count, executions.Count);
+
+            for (var i = 0; i < executions.Count; i++)
+            {
+                var expect = (DeviceInitializationBehaviorMock) expected[i];
+                var actual = (DeviceInitializationBehaviorMock) executions[i];
+
+                Assert.IsTrue(actual.Executed);
                 Assert.AreEqual(expect, actual);
             }
         }
